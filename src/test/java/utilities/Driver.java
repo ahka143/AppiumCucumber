@@ -1,73 +1,69 @@
 package utilities;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 
 public class Driver {
 
 
-    private Driver(){
+    private Driver() {
 
     }
-    static WebDriver driver;
 
-    public static WebDriver getDriver() {
-
-        if (driver==null) {
+    private static AndroidDriver androidDriver;
+    private static IOSDriver iosDriver;
 
 
-            switch (ConfigReader.getProperty("browser")){
-                case "chrome" :
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
-                    break;
+    public static AndroidDriver getAndroidDriver() {
 
-                case "safari" :
-                    WebDriverManager.safaridriver().setup();
-                    driver = new SafariDriver();
-                    break;
+        URL serverUrl = null;
+        try {
+            serverUrl = new URL("http://localhost:4723/wd/hub");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-                case "firefox" :
-                    WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
-                    break;
+        if ( androidDriver== null) {
 
-                case "edge" :
-                    WebDriverManager.edgedriver().setup();
-                    driver = new EdgeDriver();
-                    break;
-                case "headless-chrome":
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
-                    break;
+                    DesiredCapabilities capabilities = new DesiredCapabilities();
+                    capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+                    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+                    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Note8");
+                    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.0");
+                    capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
+                    capabilities.setCapability(MobileCapabilityType.APP, ConfigReader.getProperty("appPath"));
+                    assert serverUrl != null;
 
-                default:
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
+                    androidDriver = new AndroidDriver(serverUrl,capabilities);
+
+                    androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
 
             }
 
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
-        }
-        return driver;
+
+
+        return androidDriver;
     }
 
 
-    public static void closeDriver() {
+    public static void closeAndroidDriver() {
 
-        if(driver!=null) {
-            driver.close();
-            driver=null;
+        if (androidDriver != null) {
+            androidDriver.close();
+            androidDriver = null;
         }
     }
 
