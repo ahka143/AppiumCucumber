@@ -6,17 +6,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.Driver;
 
-public class ApiDemosMainPage {
-
-    public ApiDemosMainPage(){
+public class SamanyoluMainPage {
+    public SamanyoluMainPage(){
         PageFactory.initElements(new AppiumFieldDecorator(Driver.getAndroidDriver()),this);
     }
 
-    @FindBy(xpath = "//android.widget.TextView[@text='API Demos']")
-    public WebElement apiDmosButton;
 
-
-    @FindBy(xpath = "//android.widget.TextView[@text='Graphics']")
-    public WebElement graphicsButton;
-
+    @FindBy(id = "android:id/content")
+    public WebElement scrollableElement;
 }

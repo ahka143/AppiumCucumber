@@ -34,25 +34,25 @@ public class Driver {
             e.printStackTrace();
         }
 
-        if ( androidDriver== null) {
+        if (androidDriver == null) {
 
-                    DesiredCapabilities capabilities = new DesiredCapabilities();
-                    capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-                    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-                    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Note8");
-                    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.0");
-                    capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
-                    capabilities.setCapability(MobileCapabilityType.APP, ConfigReader.getProperty("appPath"));
-                    assert serverUrl != null;
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Note8");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.0");
+            capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
+            // capabilities.setCapability("appPackage", "com.dunyailetisim.samanyoluhaber");
+            //capabilities.setCapability("appActivity", "com.dunyailetisim.samanyoluhaber.MainActivity");
+            capabilities.setCapability(MobileCapabilityType.APP, ConfigReader.getProperty("appPath"));
+            assert serverUrl != null;
 
-                    androidDriver = new AndroidDriver(serverUrl,capabilities);
+            androidDriver = new AndroidDriver(serverUrl, capabilities);
 
-                    androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
-
-
-            }
+            androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
 
+        }
 
 
         return androidDriver;

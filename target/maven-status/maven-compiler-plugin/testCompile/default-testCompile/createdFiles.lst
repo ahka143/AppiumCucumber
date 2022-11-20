@@ -1,5 +1,0 @@
-runners\TestRunner.class
-utilities\Driver.class
-stepDefinitions\ApiDemosSteps.class
-pages\ApiDemosMainPage.class
-utilities\ConfigReader.class
